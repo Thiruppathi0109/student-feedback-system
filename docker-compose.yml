@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - SECRET_KEY=dev-secret-key
+      - DATABASE_URL=sqlite:///feedback.db
+    volumes:
+      - ./instance:/app/instance

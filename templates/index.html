@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Student Feedback System</h1>
+  <p>Give feedback for your courses and help improve teaching quality.</p>
+  <h3>Available Courses</h3>
+  <ul>
+    {% for c in courses %}
+      <li>{{ c.name }} — {{ c.faculty }}</li>
+    {% endfor %}
+  </ul>
+  <a class="btn" href="{{ url_for('submit_feedback') }}">Submit Feedback</a>
+{% endblock %}

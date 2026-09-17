@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Admin Dashboard</h1>
+
+  <h3>Average Rating per Course</h3>
+  <table>
+    <tr><th>Course</th><th>Avg Rating</th></tr>
+    {% for c in courses %}
+      <tr>
+        <td>{{ c.name }}</td>
+        <td>{{ avg_ratings[c.id] if avg_ratings[c.id] is not none else 'No feedback yet' }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+  <h3>Filter by Course</h3>
+  <form method="GET">
+    <select name="course_id" onchange="this.form.submit()">
+      <option value="">All Courses</option>
+      {% for c in courses %}
+        <option value="{{ c.id }}" {% if selected_course == c.id %}selected{% endif %}>{{ c.name }}</option>
+      {% endfor %}
+    </select>
+  </form>
+
+  <h3>All Feedback</h3>
+  <table>
+    <tr><th>Student</th><th>Course</th><th>Rating</th><th>Comments</th><th>Date</th><th></th></tr>
+    {% for f in feedbacks %}
+      <tr>
+        <td>{{ f.student_name }}</td>
+        <td>{{ f.course.name }}</td>
+        <td>{{ f.rating }}</td>
+        <td>{{ f.comments }}</td>
+        <td>{{ f.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+        <td>
+          <form method="POST" action="{{ url_for('delete_feedback', feedback_id=f.id) }}">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
